@@ -14,5 +14,8 @@ namespace NotesToSharePointExporter.Models
         public string listName { get; set; }
         public string ImportFilePath { get; set; }
         public string ExportFileLocation { get; set; }
+
+        public bool IsSPOnline { get; set; }
+
     }
 }

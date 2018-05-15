@@ -15,5 +15,11 @@ namespace NotesToSharePointExporter
         public static readonly string TEMPLOCATION = "TEMPLOCATION";
         public static readonly string DEFAULTLIBRARY = "DEFAULTLIBRARY";
 
+        //SPONLINE
+        public static readonly string SPOSITECOLLECTIONURL = "SPOSITECOLLECTIONURL";
+        public static readonly string SPOUSERNAME = "SPOUSERNAME";
+        public static readonly string SPOEMAIL = "SPOEMAIL";
+        public static readonly string SPOPASS = "SPOPASS";
+
     }
 }

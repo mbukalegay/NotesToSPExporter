@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnTemFileLoc = new System.Windows.Forms.Button();
             this.btnSourceFileLoc = new System.Windows.Forms.Button();
             this.btnExportToLibray = new System.Windows.Forms.Button();
@@ -51,17 +55,19 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tempFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.panelParameters = new System.Windows.Forms.Panel();
+            this.txtIsSharePointOnline = new System.Windows.Forms.CheckBox();
+            this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtIsSharePointOnline);
             this.groupBox1.Controls.Add(this.txtPassword);
             this.groupBox1.Controls.Add(this.txtUsername);
             this.groupBox1.Controls.Add(this.label6);
@@ -85,6 +91,40 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Basic parameters";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(625, 50);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(121, 20);
+            this.txtPassword.TabIndex = 16;
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(625, 22);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(121, 20);
+            this.txtUsername.TabIndex = 15;
+            this.txtUsername.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(563, 58);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Password";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(563, 30);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Username";
             // 
             // btnTemFileLoc
             // 
@@ -206,7 +246,7 @@
             this.groupBox2.Controls.Add(this.lblErrorMessage);
             this.groupBox2.Controls.Add(this.lblResult);
             this.groupBox2.Controls.Add(this.lblError);
-            this.groupBox2.Location = new System.Drawing.Point(22, 193);
+            this.groupBox2.Location = new System.Drawing.Point(22, 489);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(751, 63);
             this.groupBox2.TabIndex = 1;
@@ -254,7 +294,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.richTextBox1);
-            this.groupBox3.Location = new System.Drawing.Point(22, 274);
+            this.groupBox3.Location = new System.Drawing.Point(22, 570);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(752, 164);
             this.groupBox3.TabIndex = 2;
@@ -279,45 +319,53 @@
             this.tempFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.tempFolderBrowserDialog.SelectedPath = "C:\\temp\\NotesExportDir";
             // 
-            // label5
+            // groupBox4
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(563, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Username";
+            this.groupBox4.Controls.Add(this.panelParameters);
+            this.groupBox4.Location = new System.Drawing.Point(22, 191);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(752, 272);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Dynamic parameters";
             // 
-            // label6
+            // panelParameters
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(563, 58);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Password";
+            this.panelParameters.AutoScroll = true;
+            this.panelParameters.AutoSize = true;
+            this.panelParameters.Location = new System.Drawing.Point(6, 29);
+            this.panelParameters.Name = "panelParameters";
+            this.panelParameters.Size = new System.Drawing.Size(740, 237);
+            this.panelParameters.TabIndex = 0;
             // 
-            // txtUsername
+            // txtIsSharePointOnline
             // 
-            this.txtUsername.Location = new System.Drawing.Point(625, 22);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(121, 20);
-            this.txtUsername.TabIndex = 15;
-            this.txtUsername.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtIsSharePointOnline.AutoSize = true;
+            this.txtIsSharePointOnline.Location = new System.Drawing.Point(566, 83);
+            this.txtIsSharePointOnline.Name = "txtIsSharePointOnline";
+            this.txtIsSharePointOnline.Size = new System.Drawing.Size(117, 17);
+            this.txtIsSharePointOnline.TabIndex = 17;
+            this.txtIsSharePointOnline.Text = "SharePoint Online?";
+            this.txtIsSharePointOnline.UseVisualStyleBackColor = true;
+            this.txtIsSharePointOnline.CheckedChanged += new System.EventHandler(this.txtIsSharePointOnline_CheckedChanged);
             // 
-            // txtPassword
+            // btnGetList
             // 
-            this.txtPassword.Location = new System.Drawing.Point(625, 50);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(121, 20);
-            this.txtPassword.TabIndex = 16;
+            this.btnGetList.Location = new System.Drawing.Point(437, 179);
+            this.btnGetList.Name = "btnGetList";
+            this.btnGetList.Size = new System.Drawing.Size(75, 23);
+            this.btnGetList.TabIndex = 4;
+            this.btnGetList.Text = "TestGetList";
+            this.btnGetList.UseVisualStyleBackColor = true;
+            this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 747);
+            this.Controls.Add(this.btnGetList);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -328,6 +376,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -361,6 +411,10 @@
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel panelParameters;
+        private System.Windows.Forms.CheckBox txtIsSharePointOnline;
+        private System.Windows.Forms.Button btnGetList;
     }
 }
 

@@ -21,9 +21,11 @@ namespace NotesToSharePointExporter
         private string tempExportFolder = "";
         private string siteCollection = "";
         private string listName = "";
+        private bool isSPOnline = false;
         private string docSetName = "";
         private string docLibName = "";
         ExportParams exportParams = new ExportParams();
+        NameValueCollection appSettings = ConfigurationManager.AppSettings;
         public Form1()
         {
             InitializeComponent();
@@ -54,7 +56,7 @@ namespace NotesToSharePointExporter
 
         public void GetConfigs()
         {
-            NameValueCollection appSettings = ConfigurationManager.AppSettings;
+            
             if(appSettings.Count > 0)
             {
                 for(int i= 0; i<appSettings.Count; i++)
@@ -73,7 +75,31 @@ namespace NotesToSharePointExporter
 
         private void btnExportToDocSet_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Sorry, Not yet implemented!","Export Dialog Result");           
+            resetMessages();
+            setVariablesFromForm();
+            List<string> res = HandleExport(true);
+            if (res.Count > 0)
+            {
+                int i = 0;
+                int startPoint = 10;
+                int endPoint = 0;
+                foreach (string param in res)
+                {
+                    if ((i % 10 == 0) && (i != 0))
+                    {
+                        startPoint = startPoint += 210;
+                        endPoint = 0;
+                    }
+                    CheckBox dynamicCheckBox = new CheckBox();
+                    dynamicCheckBox.Text = param;
+                    dynamicCheckBox.Width = 200;
+                    dynamicCheckBox.Name = "param" + i;
+                    dynamicCheckBox.Location = new Point(startPoint, endPoint * 20);
+                    endPoint++;
+                    i++;
+                    this.panelParameters.Controls.Add(dynamicCheckBox);
+                }
+            }
         }
 
         private void setVariablesFromForm()
@@ -96,7 +122,29 @@ namespace NotesToSharePointExporter
         {
             resetMessages();
             setVariablesFromForm();
-            HandleExport();
+            List<string> res = HandleExport(false);
+            if (res.Count > 0)
+            {
+                int i = 0;
+                int startPoint = 10;
+                int endPoint = 0;
+                foreach (string param in res)
+                {
+                    if ((i % 10 == 0) && (i != 0))
+                    {
+                        startPoint = startPoint += 210;
+                        endPoint = 0;
+                    }
+                    CheckBox dynamicCheckBox = new CheckBox();
+                    dynamicCheckBox.Text = param;
+                    dynamicCheckBox.Width = 200;
+                    dynamicCheckBox.Name = "param"+i;
+                    dynamicCheckBox.Location = new Point(startPoint, endPoint * 20);
+                    endPoint++;
+                    i++;
+                    this.panelParameters.Controls.Add(dynamicCheckBox);
+                }
+            }
             //MessageBox.Show("Export completed!");
         }
 
@@ -107,8 +155,10 @@ namespace NotesToSharePointExporter
             lblResultMessage.Text = "";
         }
 
-        public void HandleExport()
+        public List<string> HandleExport(bool ExportToDocSet)
         {
+            List<string> _params = new List<string>();
+            exportParams.IsSPOnline = isSPOnline;
             try
             {
                 if (exportParams.ImportFilePath != "")
@@ -125,7 +175,7 @@ namespace NotesToSharePointExporter
                     string exportPath = exportParams.ExportFileLocation + "\\"+exportResult.Title + "\\";
                     exportParams.ExportFileLocation = exportPath;
                     //if (!Directory.Exists(exportPath))
-                    //{
+                    {
                         Directory.CreateDirectory(exportPath);
                     }
 
@@ -135,6 +185,7 @@ namespace NotesToSharePointExporter
 
                         if (kvp.Key != "Body")
                         {
+                            _params.Add(kvp.Key);
                             its = its + kvp.Key + " -  " + kvp.Value + "\r\n";
                         }
                     }
@@ -157,7 +208,15 @@ namespace NotesToSharePointExporter
                         fs.Close();
                     }
                     SPManager spManager = new SPManager();
-                   spManager.CreateSharePointListItem(exportResult, exportParams, fileDictionary);
+                    if (ExportToDocSet)
+                    {
+                        spManager.CreateDocSetItem(exportResult, exportParams, fileDictionary);
+                    }
+                    else
+                    {
+                        spManager.CreateSharePointListItem(exportResult, exportParams, fileDictionary);
+                    }
+                   
 
                     fls = fls + "---------------------------------------";
                     res = res + "\r\n -------------- FILES -------------\r\n"+ fls+"\r\n Export Successful.";
@@ -168,7 +227,13 @@ namespace NotesToSharePointExporter
             catch (Exception ex)
             {
                lblErrorMessage.Text = "Error "+ex.Message;
+               return _params;
             }
+            finally
+            {
+
+            }
+            return _params;
 
         }
 
@@ -192,6 +257,34 @@ namespace NotesToSharePointExporter
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtIsSharePointOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            if (txtIsSharePointOnline.Checked)
+            {
+                txtSiteCollectionUrl.Text = appSettings.Get(Constants.SPOSITECOLLECTIONURL);
+                txtUsername.Text = appSettings.Get(Constants.SPOEMAIL);
+                txtPassword.Text = appSettings.Get(Constants.SPOPASS);
+                isSPOnline = true;
+            }
+            else
+            {
+                txtSiteCollectionUrl.Text = appSettings.Get(Constants.SITECOLLECTIONURL);
+                txtUsername.Text = appSettings.Get(Constants.USERNAME);
+                txtPassword.Text = appSettings.Get(Constants.PASSWORD);
+                isSPOnline = false;
+            }
+        }
+
+        private void btnGetList_Click(object sender, EventArgs e)
+        {
+            Authentication auth = new Authentication();
+            string url = appSettings.Get(Constants.SPOSITECOLLECTIONURL);
+            string email = appSettings.Get(Constants.SPOEMAIL);
+            string pass = appSettings.Get(Constants.SPOPASS);
+            List<string> res = auth.SPOGetLists(url, email, pass);
+            string x = "";
         }
     }
 }
